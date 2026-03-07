@@ -1,0 +1,15 @@
+# Dataset e file pesanti
+*.csv
+*.dat
+Data/
+dataset/
+
+# File di cache di Python e Jupyter Notebook
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# File di sistema e configurazioni IDE
+.DS_Store
+.vscode/
+.idea/
