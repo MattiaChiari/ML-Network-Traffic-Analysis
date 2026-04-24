@@ -4,6 +4,8 @@
 Data/
 dataset/
 
+*.txt
+
 # File di cache di Python e Jupyter Notebook
 __pycache__/
 *.py[cod]
