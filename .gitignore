@@ -1,10 +1,9 @@
 # Dataset e file pesanti
 *.csv
 *.dat
+*.txt
 Data/
 dataset/
-
-*.txt
 
 # File di cache di Python e Jupyter Notebook
 __pycache__/
@@ -15,4 +14,3 @@ __pycache__/
 .DS_Store
 .vscode/
 .idea/
-.txt
