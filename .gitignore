@@ -13,4 +13,4 @@ __pycache__/
 # File di sistema e configurazioni IDE
 .DS_Store
 .vscode/
-.idea/
+.idea/venv/
