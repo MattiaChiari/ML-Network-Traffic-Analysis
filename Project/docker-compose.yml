@@ -1,5 +1,13 @@
 
 services:
+  binario_api:
+    build:
+      context: ./BinaryModel        
+    ports:
+      - "5001:5001"             
+    networks:
+      - ml_network
+
   n8n:
     image: n8nio/n8n
     ports:

@@ -1,7 +1,6 @@
 # Dataset e file pesanti
 *.csv
 *.dat
-*.txt
 Data/
 dataset/
 
