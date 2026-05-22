@@ -6,8 +6,6 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 model = joblib.load("model_binary.pkl")
 
-SOGLIA = 0,40
-
 X_columns = [
         'Header_Length', 'Time_To_Live', 
         'Rate', 'fin_flag_number', 'syn_flag_number', 
@@ -33,19 +31,19 @@ def get_predict():
     if "features" not in data:
         return jsonify({"status": "Error", "message": "Missing 'features' field in request"}), 400
     
-    if not isinstance(data["features"], list):
+    if not isinstance(data["features"], dict):
         return jsonify({"status": "error", "message": "'features' must be an array"}), 400
-    
-    # if len(data["features"]) != 36:
-    #     return jsonify({"status": "error", "message": "Incorrect number of features. Expected 36"}), 400
-
-    try:
         
-        prob = 1
+    try:
+        el_data = [data["features"].get(col, 0) for col in X_columns]
+        el_data = np.array(el_data).reshape(1, -1)
+        
+        prob = model.predict_proba(el_data)[0]
 
         return jsonify({          
-            "probability": prob,  
-            "features": data["features"]   
+            "benign_probability": float(prob[0]),
+            "malicious_probability": float(prob[1]),
+            "features": data["features"] 
         })
 
     except Exception as e:

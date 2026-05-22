@@ -35,7 +35,7 @@ def main():
         'AVG', 'Std', 'Tot size', 'IAT', 'Number'
     ]
     df['Label'] = np.where(df['Label'] == 'BENIGN', 0, 1)
-    y_column = 'Label'
+    y_column = 'Label' 
     
     X = df[X_columns]
     y = df[y_column]
