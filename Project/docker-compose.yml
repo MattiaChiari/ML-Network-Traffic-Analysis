@@ -1,10 +1,18 @@
 
 services:
-  binario_api:
+  binario-api:
     build:
       context: ./BinaryModel        
     ports:
       - "5001:5001"             
+    networks:
+      - ml_network
+      
+  multiclasse-api:
+    build:
+      context: ./MultiClass        
+    ports:
+      - "5002:5002"             
     networks:
       - ml_network
 

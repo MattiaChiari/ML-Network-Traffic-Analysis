@@ -35,11 +35,11 @@ def get_predict():
         return jsonify({"status": "error", "message": "'features' must be an array"}), 400
         
     try:
-        el_data = [data["features"].get(col, 0) for col in X_columns]
+        el_data = [data["features"].get(col, np.nan) for col in X_columns]
         el_data = np.array(el_data).reshape(1, -1)
         
         prob = model.predict_proba(el_data)[0]
-
+        
         return jsonify({          
             "benign_probability": float(prob[0]),
             "malicious_probability": float(prob[1]),
