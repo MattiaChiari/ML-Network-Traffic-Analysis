@@ -1,0 +1,349 @@
+{
+  "name": "Tirocinio",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "traffic",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -816,
+        96
+      ],
+      "id": "23ae1199-416d-4e0b-93c2-49a1d0bae682",
+      "name": "Webhook",
+      "webhookId": "3c78240f-68e9-4b20-999a-5e6131db28ef"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "098f0947-af2d-431b-92d8-6ca14ef98f60",
+              "leftValue": "={{ $json.malicious_probability }}",
+              "rightValue": 0.35,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        96
+      ],
+      "id": "9b41c636-e3d2-4032-8966-ba1d5d0f01cb",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ad725235-8e15-4fb8-abd7-ddecec169e6f",
+              "name": "esito_analisi",
+              "value": "BENIGNO - Traffico sicuro",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        192
+      ],
+      "id": "b6e3abb1-023b-467a-81ca-e87735ff109f",
+      "name": "Benigno"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"esito\": \"{{ $json.esito_analisi }}\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        208,
+        192
+      ],
+      "id": "e5f86864-abac-48f0-b1ad-5e59a2835985",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://binario-api:5001/predict",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -608,
+        96
+      ],
+      "id": "ebaea7a6-2f41-4398-8b19-488385954e3a",
+      "name": "BinaryAPI"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://multiclasse-api:5002/predict",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ \"features\": $json.features }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "59c7ba84-abc3-4276-ae0b-e8d8b152af78",
+      "name": "MultiAPI"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"status\": \"ok\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        608,
+        0
+      ],
+      "id": "fd7e283b-3647-47d7-82e3-3e284a9ace57",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3aa0fa16-3bad-4763-b103-2ee5853573cb",
+              "name": "attack_id",
+              "value": "={{ $('Webhook').item.json.body.attack_id }}",
+              "type": "string"
+            },
+            {
+              "id": "a98c15ac-41c4-4a7a-9533-97fc998dc637",
+              "name": "T1",
+              "value": "={{ Date.now() / 1000 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -400,
+        96
+      ],
+      "id": "ee09a535-d785-450c-847e-555e63ee88a8",
+      "name": "Set T1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2132a23b-98e6-40af-b38f-4bbb082abf1f",
+              "name": "attack_name",
+              "value": "={{$json.attack_name}}",
+              "type": "string"
+            },
+            {
+              "id": "8b6642b7-89b7-44f0-b786-f4bf3a32c609",
+              "name": "confidence",
+              "value": "={{ $json.confidence }}",
+              "type": "number"
+            },
+            {
+              "id": "9075a216-445f-4d99-a6e7-9d8253f7b84b",
+              "name": "attack_id",
+              "value": "={{ $('Set T1').item.json.attack_id }}",
+              "type": "string"
+            },
+            {
+              "id": "641af8ba-062e-40ab-baff-705994bf19e3",
+              "name": "T1",
+              "value": "={{ $('Set T1').item.json.T1 }}",
+              "type": "number"
+            },
+            {
+              "id": "5dfdace4-b284-4db3-9bd3-9d361dbfc299",
+              "name": "T2",
+              "value": "={{ Date.now() / 1000 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "870f02f4-5d62-4b39-b4d2-aa531d2e1c4f",
+      "name": "Set T2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ddos_victim:5050/alert",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"attack_name\": \"{{ $json.attack_name }}\",\n  \"confidence\": \"{{ $json.confidence }}\",\n  \"attack_id\": \"{{ $json.attack_id }}\",\n  \"T1\": \"{{ $json.T1 }}\",\n  \"T2\": \"{{ $json.T2 }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "aa2c304b-d287-4cf2-81f3-f036fc7cf77f",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "BinaryAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "MultiAPI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Benigno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Benigno": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BinaryAPI": {
+      "main": [
+        [
+          {
+            "node": "Set T1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MultiAPI": {
+      "main": [
+        [
+          {
+            "node": "Set T2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set T1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set T2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3410b7a5-d3ee-49fe-a7f1-1f0c6c104acc",
+  "meta": {
+    "instanceId": "8a2699f9496c6a7a4b41b7fe95af440bb7ec45d6a2ec34c1f6c30f6d64de3560"
+  },
+  "id": "eoqd1HIx6zP2s1If",
+  "tags": []
+}

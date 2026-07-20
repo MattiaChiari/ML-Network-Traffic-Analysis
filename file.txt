@@ -1,0 +1,33 @@
+        DDOS-PSHACK_FLOOD       1.00      1.00      1.00      8773
+        MIRAI-GREIP_FLOOD       1.00      1.00      1.00      2303
+DOS-UDP_FLOOD           0.75      0.59      0.66      8196
+DNS_SPOOFING            0.77      0.61      0.68       559
+        DDOS-ICMP_FLOOD         1.00      1.00      1.00     11777
+DDOS-TCP_FLOOD          0.67      0.77      0.72      8504
+DDOS-SYN_FLOOD          0.54      0.50      0.52      8843
+DDOS-UDP_FLOOD          0.73      0.85      0.78     10448
+                                        MITM-ARPSPOOFING        0.74      0.77      0.75       908
+DDOS-SYNONYMOUSIP_FLOOD 0.47      0.66      0.55      7225
+DOS-TCP_FLOOD           0.59      0.46      0.52      5894
+                        VULNERABILITYSCAN       0.48      0.67      0.56      1181
+DOS-SYN_FLOOD           0.63      0.34      0.44      5124
+        DDOS-RSTFINFLOOD        1.00      1.00      1.00      7771
+    DDOS-SLOWLORIS          0.92      0.97      0.94       578
+        DDOS-ICMP_FRAGMENTATION 1.00      0.99      0.99      1401
+        MIRAI-GREETH_FLOOD      1.00      1.00      1.00      3079
+RECON-HOSTDISCOVERY'    0.65      0.55      0.59       422
+        MIRAI-UDPPLAIN          1.00      1.00      1.00      2750
+                        RECON-PORTSCAN          0.48      0.23      0.31       258
+        DDOS-ACK_FRAGMENTATION  1.00      0.98      0.99       894
+    DDOS-UDP_FRAGMENTATION  0.99      0.99      0.99       879
+RECON-OSSCAN            0.35      0.25      0.29       292
+BACKDOOR_MALWARE        0.30      0.27      0.28       307
+DOS-HTTP_FLOOD          0.78      0.69      0.73       235
+XSS                     0.23      0.33      0.27       370
+DDOS-HTTP_FLOOD         0.89      0.91      0.90       599
+BROWSERHIJACKING        0.62      0.61      0.61       532
+SQLINJECTION            0.31      0.24      0.27       502
+DICTIONARYBRUTEFORCE    0.52      0.59      0.55       583
+COMMANDINJECTION        0.46      0.47      0.46       515
+RECON-PINGSWEEP         0.37      0.20      0.26       216
+UPLOADING_ATTACK        0.15      0.05      0.08       119

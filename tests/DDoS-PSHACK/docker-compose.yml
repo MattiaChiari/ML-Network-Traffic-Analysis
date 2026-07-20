@@ -1,0 +1,33 @@
+services:
+  victim:
+    build:
+      context: ./victim
+    container_name: ddos_victim
+    cap_add:
+      - NET_ADMIN       #Per dare i permessi di rete per poter fare tc
+      - NET_RAW
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - ml_network
+
+  sender:
+    build:
+      context: ./sender
+    container_name: ddos_sender
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - ml_network
+    profiles:
+      - manual # Impedisce l'avvio automatico con "up"
+    
+networks:
+  ml_network:
+    external: true
+    name: aimodels-automation_ml_network

@@ -10,6 +10,7 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.frozen import FrozenEstimator
 from sklearn.metrics import brier_score_loss, roc_auc_score
 from sklearn.metrics import accuracy_score,f1_score
+from sklearn.metrics import classification_report
 
 def main():
     start_time = time.time()
@@ -129,6 +130,9 @@ def main():
     print(f"ROC-AUC Score : {roc_auc:.4f}")
     end_time = time.time()
     print(f"\nTempo totale di esecuzione: {(end_time - start_time)/60:.2f} minuti.")
+    
+    print("\nClassification Report Base:")
+    print(classification_report(y_test, y_pred, zero_division=0))
 
     
 if __name__ == "__main__":
